@@ -146,8 +146,3 @@ def watchlist_by_url(url):
     for Watchlist in watchlist_scrapers:
         if re.match(Watchlist.watched_re, url):
             return Watchlist(url)
-
-
-
-
-

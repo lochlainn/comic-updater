@@ -15,12 +15,6 @@ import zipfile
 
 download_pool = ThreadPoolExecutor(config.get().download_threads)
 
-class BaseWatchlist(metaclass=ABCMeta):
-    """Class that is used to represent and individual watchlist."""
-
-    def __init__(self, url, **kwargs):
-        self.url = url
-
 
 class BaseSeries(metaclass=ABCMeta):
     """Class that is used to represent an individual series on a site."""
@@ -344,3 +338,10 @@ class BaseChapter(metaclass=ABCMeta):
                 db.session.commit()
             except IntegrityError:
                 db.session.rollback()
+
+# !LM is this needed?
+class BaseWatchlist(metaclass=ABCMeta):
+    """Class that is used to represent and individual watchlist."""
+
+    def __init__(self, url, **kwargs):
+        self.url = url
