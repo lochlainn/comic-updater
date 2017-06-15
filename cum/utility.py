@@ -1,5 +1,5 @@
 from cum import db, config, output
-from cum.scrapers import chapter_scrapers, series_scrapers
+from cum.scrapers import chapter_scrapers, series_scrapers, watchlist_scrapers
 import click
 import datetime
 import re
@@ -132,3 +132,22 @@ def time_to_relative(time):
     if value == 1:
         unit = unit.rstrip('s')
     return '{} {} ago'.format(value, unit)
+
+def series_by_url(url):
+    """Helper function that iterates through the series scrapers defined in
+    cum.scrapers.__init__ and returns an initialized series object when it
+    matches the URL regex.
+    """
+    for Series in series_scrapers:
+        if re.match(Series.url_re, url):
+            return Series(url)
+
+def watchlist_by_url(url):
+    for Watchlist in watchlist_scrapers:
+        if re.match(Watchlist.watched_re, url):
+            return Watchlist(url)
+
+
+
+
+

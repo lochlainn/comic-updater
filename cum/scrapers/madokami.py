@@ -9,37 +9,43 @@ import requests
 fallback_re = re.compile(r'\- (.*) (?:\[(.*)\])?')
 name_re = re.compile(r'-? c([0-9-]+).*?(?: \[(.*)\])?\.')
 
-
-class MadokamiFollowed():
+# !LM Do I need BaseWatchlist here?
+class MadokamiWatchlist():
     watched_re = re.compile(r'https://manga\.madokami\.al/user/watched.opml')
     url_re = re.compile(r'https://manga\.madokami\.al/Manga/[^.]+$')
 
     def __init__(self, url, **kwargs):
-        super().__init__(url, **kwargs)
+        super().__init__()
         self.session = requests.Session()
         self.session.auth = requests.auth.HTTPBasicAuth(*config
                                                         .get().madokami.login)
         r = self.session.get(url)
         if r.status_code == 401:
             raise exceptions.LoginError('Madokami login error')
-        self.soup = BeautifulSoup(r.content, config.get().xml_parser)
-        self.followed = self.get_followed()
+        self.soup = BeautifulSoup(r.content,'xml')
+        self.followed = self.get_watched()
 
-    def get_followed(self):
+    def get_watched(self):
         try:
             outlines = (self.soup
                         .find_all('outline'))
         except AttributeError:
             raise exceptions.ScrapingError()
-        series_url_list = []
+        url_list = []
+        # for o in outlines:
+        #     print(type(o.get('htmlUrl')))
         for o in outlines:
             # Some series on Madokami have both translated and raw directories.
             # The regex is used here to make sure that only translated series
             # are added to the db.
-            match = re.search(o)
-            if match:
-                series_url_list.append(o)
-        return series_url_list
+            h = o.get('htmlUrl')
+            # Madokami's OPML formatting is weird, and sometimes there will be
+            # type:none exceptions to the rule here, so they should be checked for.
+            if type(h) is str:
+                match = re.search(self.url_re, h)
+                if match:
+                    url_list.append(h)
+        return url_list
 
 
 

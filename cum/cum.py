@@ -307,17 +307,39 @@ def get(input, directory):
                            .format(c=chapter, e=e.message))
 
 
-@cli.command('import')
-@click.argument('followed_url', required=True)
+@cli.command(name='import')
+@click.argument('watchlist_urls', required=True, nargs=-1)
 @click.option('--directory',
               help='Directory which download the series chapters into.')
 @click.option('--download', is_flag=True,
               help='Downloads the chapters for the added follows.')
 @click.option('--ignore', is_flag=True,
               help='Ignores the chapters for the added follows.')
-def follow_import(followed_url, directory, download, ignore):
-    #!LM continue here
+@click.pass_context
+def watchlist_import(ctx, watchlist_urls, directory, download, ignore):
+    """
+    Import a watchlist from an external account.
 
+    Most sites have their own watchlist utility; this allows you to follow
+    everything you already follow on the sites, without having to add them
+    manually.  Currently only supports Madokami.
+    """
+    for url in watchlist_urls:
+        try:
+            watchlist = utility.watchlist_by_url(url)
+        except exceptions.ScrapingError:
+            output.warning('Scraping error ({})'.format(url))
+            continue
+        except exceptions.LoginError as e:
+            output.warning('{} ({})'.format(e.message, url))
+            continue
+        if not watchlist:
+            output.warning('Invalid URL "{}"'.format(url))
+            continue
+        url_list = watchlist.get_watched()
+        output.series('Importing {} new series.'.format(len(url_list)))
+        ctx.invoke(follow, urls=url_list, directory=directory,
+            download=download, ignore=ignore)
 
 
 @cli.command()
