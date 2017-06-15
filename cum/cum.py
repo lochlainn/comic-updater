@@ -307,6 +307,19 @@ def get(input, directory):
                            .format(c=chapter, e=e.message))
 
 
+@cli.command('import')
+@click.argument('followed_url', required=True)
+@click.option('--directory',
+              help='Directory which download the series chapters into.')
+@click.option('--download', is_flag=True,
+              help='Downloads the chapters for the added follows.')
+@click.option('--ignore', is_flag=True,
+              help='Ignores the chapters for the added follows.')
+def follow_import(followed_url, directory, download, ignore):
+    #!LM continue here
+
+
+
 @cli.command()
 @click.argument('alias')
 @click.argument('chapters', required=True, nargs=-1)

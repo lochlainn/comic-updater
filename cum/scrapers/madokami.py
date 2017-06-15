@@ -10,6 +10,39 @@ fallback_re = re.compile(r'\- (.*) (?:\[(.*)\])?')
 name_re = re.compile(r'-? c([0-9-]+).*?(?: \[(.*)\])?\.')
 
 
+class MadokamiFollowed():
+    watched_re = re.compile(r'https://manga\.madokami\.al/user/watched.opml')
+    url_re = re.compile(r'https://manga\.madokami\.al/Manga/[^.]+$')
+
+    def __init__(self, url, **kwargs):
+        super().__init__(url, **kwargs)
+        self.session = requests.Session()
+        self.session.auth = requests.auth.HTTPBasicAuth(*config
+                                                        .get().madokami.login)
+        r = self.session.get(url)
+        if r.status_code == 401:
+            raise exceptions.LoginError('Madokami login error')
+        self.soup = BeautifulSoup(r.content, config.get().xml_parser)
+        self.followed = self.get_followed()
+
+    def get_followed(self):
+        try:
+            outlines = (self.soup
+                        .find_all('outline'))
+        except AttributeError:
+            raise exceptions.ScrapingError()
+        series_url_list = []
+        for o in outlines:
+            # Some series on Madokami have both translated and raw directories.
+            # The regex is used here to make sure that only translated series
+            # are added to the db.
+            match = re.search(o)
+            if match:
+                series_url_list.append(o)
+        return series_url_list
+
+
+
 class MadokamiSeries(BaseSeries):
     url_re = re.compile(r'https://manga\.madokami\.al/Manga/[^.]+$')
 
