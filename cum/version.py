@@ -1,4 +1,4 @@
-__version__ = '0.8.1'
+__version__ = 'git-4edf1b5'
 __version_name__ = 'Miyamo Chio-chan'
 
 

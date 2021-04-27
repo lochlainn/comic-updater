@@ -114,7 +114,8 @@ setup(
         'Click',
         'natsort',
         'requests',
-        'SQLAlchemy'
+        'SQLAlchemy',
+        'lxml'
     ],
     extras_require={
         'testing': ['codecov', 'cov-core', 'nose2', 'pycodestyle']
