@@ -1,7 +1,7 @@
 from cum.scrapers.batoto import BatotoChapter, BatotoSeries
 from cum.scrapers.dokireader import DokiReaderSeries, DokiReaderChapter
 from cum.scrapers.dynastyscans import DynastyScansChapter, DynastyScansSeries
-from cum.scrapers.madokami import MadokamiChapter, MadokamiSeries
+from cum.scrapers.madokami import MadokamiChapter, MadokamiSeries, MadokamiWatchlist
 from cum.scrapers.yuriism import YuriismChapter, YuriismSeries
 
 series_scrapers = [
@@ -17,4 +17,8 @@ chapter_scrapers = [
     DynastyScansChapter,
     MadokamiChapter,
     YuriismChapter
+]
+
+watchlist_scrapers = [
+    MadokamiWatchlist
 ]
