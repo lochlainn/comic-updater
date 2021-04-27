@@ -1,25 +1,20 @@
-# cum
+# comic updater
 
-[![Build Status](https://travis-ci.org/Hamuko/cum.svg?branch=master)](https://travis-ci.org/Hamuko/cum)
-[![codecov.io](https://img.shields.io/codecov/c/github/Hamuko/cum.svg?maxAge=86400)](https://codecov.io/github/Hamuko/cum?branch=master)
-[![PyPI](https://img.shields.io/pypi/v/cum.svg?maxAge=86400)](https://pypi.python.org/pypi/cum)
-[![AUR](https://img.shields.io/aur/version/cum.svg?maxAge=86400)](https://aur.archlinux.org/packages/cum/)
-
-comic updater, mangafied
+comic updater, mangafied (loch's fork)
 
 ## Description
 
-cum (comic updater, mangafied) is a tool designed for automated manga downloads from various online manga aggregate sites. It is inspired by some of the popular package managers used with Linux distributions and OS X. The file naming scheme is partially based Daiz's [Manga Naming Scheme](https://gist.github.com/Daiz/bb8424cfedd0f05b7386).
+comic-updater (comic updater, mangafied) is a tool designed for automated manga downloads from various online manga aggregate sites. It is inspired by some of the popular package managers used with Linux distributions and OS X. The file naming scheme is partially based Daiz's [Manga Naming Scheme](https://gist.github.com/Daiz/bb8424cfedd0f05b7386).
+
+## Fork description
+
+This fork is based on the code Hamuko wrote up to 2017; I added some features to help manage watchlists stored on remote sites (Madokami in particular).
 
 ## Installation
 
-The easiest way to install the latest release of cum is by downloading and installing it from [Python Package Index](https://pypi.python.org/pypi/cum) with the command
+This fork isn't published to pyPI yet, so the best way to build it is to point at the repo directly:
 
-    pip install cum
-
-If you want to get the latest and (possibly) the greatest, you can install the master branch version with
-
-    pip install git+https://github.com/Hamuko/cum
+    pip install git+https://github.com/lochlainn/comic-updater
 
 Users of Arch Linux can install release versions from [the AUR](https://aur.archlinux.org/packages/cum/).
 
